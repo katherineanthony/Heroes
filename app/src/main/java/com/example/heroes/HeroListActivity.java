@@ -3,12 +3,15 @@ package com.example.heroes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
@@ -20,11 +23,16 @@ import com.google.gson.Gson;
 
 public class HeroListActivity extends AppCompatActivity {
     private String jsonString;
+    private ListView listView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_heroes_list);
+
+        wireWidgets();
+        setOnClickListeners();
 
         InputStream xmlFileInputStream = getResources().openRawResource(R.raw.heroes);
         jsonString = readTextFile(xmlFileInputStream);
@@ -38,6 +46,22 @@ public class HeroListActivity extends AppCompatActivity {
 
         // verify that it read everything properly
         Log.d("Quiz", "onCreate: " + questionList.toString());
+    }
+
+    private void setOnClickListeners() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent
+            }
+        });
+
+
+    }
+
+    private void wireWidgets() {
+        listView=findViewById(R.id.listView_heroeslist_listView);
+
     }
 
     public String readTextFile(InputStream inputStream){
