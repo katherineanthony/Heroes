@@ -24,6 +24,14 @@ import com.google.gson.Gson;
 public class HeroListActivity extends AppCompatActivity {
     private String jsonString;
     private ListView listView;
+    private List<Hero> heroList;
+
+
+    private TextView textViewRank;
+    private TextView textViewName;
+    private TextView textViewDesc;
+    private HeroAdapter heroAdapter;
+    public static final String EXTRA_POSITION = "position";
 
 
     @Override
@@ -39,20 +47,30 @@ public class HeroListActivity extends AppCompatActivity {
 
         // create a gson object
         Gson gson = new Gson();
-        // read your json file into an array of questions
-        Hero[] heroesList =  gson.fromJson(jsonString, Hero[].class);
-        // convert your array to a list using the Arrays utility class
-        List<Hero> questionList = Arrays.asList(heroesList);
 
-        // verify that it read everything properly
-        Log.d("Quiz", "onCreate: " + questionList.toString());
+        // read your json file into an array of heroes
+        Hero[] heroesArray =  gson.fromJson(jsonString, Hero[].class);
+
+        // convert your array to a list using the Arrays utility class
+        heroList = Arrays.asList(heroesArray);
+
+        heroAdapter = new HeroAdapter(heroList);
+
+        listView.setAdapter(heroAdapter);
     }
 
     private void setOnClickListeners() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                Hero heroClicked = heroList.get(position);
+
+                Intent listViewClicked = new Intent (HeroListActivity.this,
+                        HeroDetailActivity.class);
+                listViewClicked.putExtra(EXTRA_POSITION, heroClicked);
+                startActivity(listViewClicked);
+
             }
         });
 
@@ -116,12 +134,18 @@ public class HeroListActivity extends AppCompatActivity {
             // instead of calling findViewById at the activity class leve,
             // we're calling it from the inflated layout to find THOSE widgets
 
-            TextView textViewName = convertView.findViewById(R.id.textView_heroitem_name);
+            textViewName = convertView.findViewById(R.id.textView_heroitem_name);
+            textViewDesc = convertView.findViewById(R.id.textView_heroitem_description);
+            textViewRank = convertView.findViewById(R.id.textView_heroitem_number);
             // do this for as many widgets as you need
 
             // set the value for each widget. use the position parameter variable
             // to get the hero that you need out of the list
             // and set the values for widgets.
+
+            textViewName.setText(heroesList.get(position).getName());
+            textViewDesc.setText(heroesList.get(position).getDescription());
+            textViewRank.setText(String.valueOf(heroesList.get(position).getRanking()));
 
             // 3. return the inflated view
             return convertView;

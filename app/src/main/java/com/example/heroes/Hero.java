@@ -27,6 +27,50 @@ public class Hero implements Parcelable {
     public Hero() {
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getSuperpower() {
+        return superpower;
+    }
+
+    public void setSuperpower(String superpower) {
+        this.superpower = superpower;
+    }
+
+    public int getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(int ranking) {
+        this.ranking = ranking;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public static Creator<Hero> getCREATOR() {
+        return CREATOR;
+    }
+
     protected Hero(Parcel in) {
         this.name = in.readString();
         this.description = in.readString();
