@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,11 +27,13 @@ public class HeroDetailActivity extends AppCompatActivity {
 
         wireWidgets();
 
+
         name.setText(hero.getName());
         descriptionText.setText(hero.getDescription());
         rankText.setText(String.valueOf(hero.getRanking()));
         superpowerText.setText(hero.getSuperpower());
     }
+
 
     private void wireWidgets() {
 

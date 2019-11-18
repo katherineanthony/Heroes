@@ -7,17 +7,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import com.google.gson.Gson;
 
@@ -57,6 +63,68 @@ public class HeroListActivity extends AppCompatActivity {
         heroAdapter = new HeroAdapter(heroList);
 
         listView.setAdapter(heroAdapter);
+
+
+    }
+
+    
+    // these two methods are for the options menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_heroeslist_sorting, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_heroeslist_sort_by_name:
+                sortByName();
+                heroAdapter.notifyDataSetChanged();
+                return true;
+            case R.id.action_heroeslist_sort_by_rank:
+                sortByRank();
+                heroAdapter.notifyDataSetChanged();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void sortByRank()
+    {
+        Toast.makeText(this, "Sort by name clicked", Toast.LENGTH_SHORT);
+
+        //extract the list from the adapter
+        //heroAdapter.heroesList
+        Collections.sort(heroList, new Comparator<Hero>() {
+            @Override
+            public int compare(Hero one, Hero t1)
+            {
+
+                // negative number if thing comes before two
+                // 0 if hero and two are the same
+                // postitive if hero comes after two
+                return one.getRanking() - t1.getRanking();
+            }
+        });
+
+    }
+
+    private void sortByName() {
+
+        Collections.sort(heroList, new Comparator<Hero>() {
+            @Override
+            public int compare(Hero hero, Hero t1) {
+                return hero.getName().toLowerCase().compareTo(t1.getName().toLowerCase());
+            }
+        });
+
+        // call the method notifyDataSetChanged on the adapter bc it
+        // doesnt know i changed the list mwahahahaha
+        Toast.makeText(this, "Sort by rank clicked", Toast.LENGTH_SHORT);
     }
 
     private void setOnClickListeners() {
